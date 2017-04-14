@@ -11,10 +11,24 @@ const server = net.createServer( request => {
     const path = requestLine[1];
     const httpVersion = requestLine[2];
 
+    console.log(`method: ${method} path: ${path} httpVersion: ${httpVersion}`);
 
-    console.log(`request line: ${requestLine} method: ${method} path: ${path} httpVersion: ${httpVersion}`);
+    if( path === '/css/styles.css'){
+const headersAndBody = `HTTP/1.1 200 OK
+Content-Type: text/css
+Content-Length: ${css.length}
 
-    const headersAndBody = `HTTP/1.1 200 OK
+${css}`;
+
+request.write(headersAndBody);
+request.end();
+return;
+    }
+
+    if( path === '/' || path === '/index.html'){
+      console.log(path);
+
+const headersAndBody = `HTTP/1.1 200 OK
 Content-Type: text/html
 Content-Length: ${indexHTML.length}
 
@@ -22,8 +36,43 @@ ${indexHTML}`;
 
 request.write(headersAndBody);
 request.end();
+return;
+    }
 
+    if( path === '/helium.html'){
+const headersAndBody = `HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: ${indexHelium.length}
 
+${indexHelium}`;
+
+request.write(headersAndBody);
+request.end();
+return;
+    }
+
+    if( path === '/hydrogen.html'){
+const headersAndBody = `HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: ${indexHydrogen.length}
+
+${indexHydrogen}`;
+
+request.write(headersAndBody);
+request.end();
+return;
+
+    } else {
+const headersAndBody = `HTTP/1.1 404 Not Found
+Content-Type: text/html
+Content-Length: ${index404.length}
+
+${index404}`;
+
+request.write(headersAndBody);
+request.end();
+return;
+    }
   });
 });
 
@@ -71,6 +120,22 @@ const indexHelium = `<!DOCTYPE html>
 </body>
 </html>`;
 
+const indexHydrogen = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Elements - Hydrogen</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <h1>Hydrogen</h1>
+  <h2>H</h2>
+  <h3>Atomic number 1</h3>
+  <p>Hydrogen is a chemical element with chemical symbol H and atomic number 1. With an atomic weight of 1.00794 u, hydrogen is the lightest element on the periodic table. Its monatomic form (H) is the most abundant chemical substance in the universe, constituting roughly 75% of all baryonic mass. Non-remnant stars are mainly composed of hydrogen in its plasma state. The most common isotope of hydrogen, termed protium (name rarely used, symbol 1H), has a single proton and zero neutrons.</p>
+  <p><a href="/">back</a></p>
+</body>
+</html>`;
+
 const index404 = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,3 +151,114 @@ const index404 = `<!DOCTYPE html>
   </p>
 </body>
 </html>`;
+
+const css = `@import url(http://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab);
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* STYLES */
+
+body{
+  background-color: #3F3F4E;
+  font-family: 'Open Sans', 'Helvetica', sans-serif;
+  padding: 50px;
+  max-width: 500px;
+  margin: auto;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Roboto Slab', 'Helvetica', sans-serif;
+  color: #B4D12B;
+  margin-bottom: 20px;
+}
+
+h1{
+  font-size: 50px;
+  line-height: 55px;
+}
+
+h2{
+  font-size: 30px;
+  line-height: 38px;
+  color: #879642;
+}
+
+h3{
+  font-size: 25px;
+  line-height: 30px;
+  color: #F2FFC1;
+}
+
+p{
+  color: #C6C5AC;
+  font-family: 'Open Sans', 'Helvetica', sans-serif;
+  line-height: 26px;
+  font-size: 15px;
+}
+
+ul{
+
+}
+
+li{
+  line-height: 26px;
+  font-size: 15px;
+}
+
+a{
+  color: #F2FFC1;
+  text-decoration: none;
+  border-bottom: 1px dashed #E3DE8B;
+}
+
+a:hover{
+  color: #C6C5AC;
+  border-bottom: 1px dashed #C6C5AC;
+}`;
