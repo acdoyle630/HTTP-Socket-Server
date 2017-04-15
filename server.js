@@ -5,6 +5,7 @@ const net = require('net');
 const server = net.createServer( request => {
 
   request.on('data', (data)=>{
+    //console.log(data.toString());
     const dataArray = data.toString().split('\r\n');
     const requestLine = dataArray[0].split(' ');
     const method = requestLine[0];
@@ -26,14 +27,14 @@ return;
     }
 
     if( path === '/' || path === '/index.html'){
-      console.log(path);
+      //console.log(path);
 
 const headersAndBody = `HTTP/1.1 200 OK
 Content-Type: text/html
 Content-Length: ${indexHTML.length}
 
 ${indexHTML}`;
-
+//console.log(headersAndBody);
 request.write(headersAndBody);
 request.end();
 return;
@@ -101,7 +102,6 @@ const indexHTML = `<!DOCTYPE html>
   </ol>
 </body>
 </html>
-Raw
 `;
 
 const indexHelium = `<!DOCTYPE html>
